@@ -1,0 +1,22 @@
+{
+  "name": "@repo/store",
+  "version": "0.0.0",
+  "engines": {
+    "node": "^20"
+  },
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@turbo/gen": "^2.4.4",
+    "@types/node": "^22.13.9",
+    "eslint": "^9.22.0",
+    "typescript": "5.8.2",
+    "zustand": "^4.3.0"
+  },
+  "dependencies": {
+    "zustand": "^4.3.0"
+  }
+}
