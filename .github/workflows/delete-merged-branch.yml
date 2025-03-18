@@ -1,0 +1,29 @@
+name: Delete Merged Branch
+
+on:
+  pull_request:
+    types: [closed] 
+
+jobs:
+  delete-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR 머지 여부 확인
+        id: check-merged
+        run: |
+          if ${{ github.event.pull_request.merged }} == true; then
+            echo "MERGED=true" >> $GITHUB_ENV
+          else
+            echo "MERGED=false" >> $GITHUB_ENV
+          fi
+
+      - name: 브랜치 삭제
+        if: env.MERGED == 'true'
+        run: |
+          BRANCH_NAME=${{ github.event.pull_request.head.ref }}
+
+          echo "Deleting branch: $BRANCH_NAME"
+
+          curl -X DELETE -H "Authorization: token ${{ secrets.GH_PAT }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/$BRANCH_NAME"
