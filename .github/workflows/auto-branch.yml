@@ -1,4 +1,4 @@
-name: Create Branch from Issue
+name: Create Branch from Issue with Label
 
 on:
   issues:
@@ -8,18 +8,25 @@ jobs:
   create-branch:
     runs-on: ubuntu-latest
     steps:
+      - name: 첫 번째 레이블 가져오기
+        id: get-label
+        run: |
+          LABEL=$(jq -r '.issue.labels[0].name // "Issue"' <<< '${{ toJson(github.event.issue) }}')
+          
+          SAFE_LABEL=$(echo "$LABEL" | tr ' ' '-' | tr -cd '[:alnum:]-')
+
+          echo "LABEL=$SAFE_LABEL" >> $GITHUB_ENV
+          echo "First Label: $SAFE_LABEL"
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create and push branch
+      - name: 이슈 브런치 생성하기
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_TITLE=${{ github.event.issue.title }}
-          SAFE_TITLE=$(echo "$ISSUE_TITLE" | tr ' ' '-' | tr -cd '[:alnum:]-')
-
-          BRANCH_NAME="issue-${ISSUE_NUMBER}-${SAFE_TITLE}"
+          BRANCH_NAME="${LABEL}/#${ISSUE_NUMBER}"
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
