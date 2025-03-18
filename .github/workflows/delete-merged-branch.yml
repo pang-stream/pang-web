@@ -2,7 +2,7 @@ name: Delete Merged Branch
 
 on:
   pull_request:
-    types: [closed] 
+    types: [closed]  # PR이 닫힐 때 실행
 
 jobs:
   delete-branch:
@@ -18,12 +18,16 @@ jobs:
           fi
 
       - name: 브랜치 삭제
-        if: env.MERGED == 'true'
+        if: env.MERGED == 'true'  # PR이 머지된 경우에만 실행
         run: |
+          # 브랜치 이름 가져오기
           BRANCH_NAME=${{ github.event.pull_request.head.ref }}
 
-          echo "Deleting branch: $BRANCH_NAME"
+          # URL 인코딩 (특수 문자 처리)
+          ENCODED_BRANCH_NAME=$(echo "$BRANCH_NAME" | jq -sRr @uri)
+
+          echo "Deleting branch: $BRANCH_NAME (Encoded: $ENCODED_BRANCH_NAME)"
 
           curl -X DELETE -H "Authorization: token ${{ secrets.GH_PAT }}" \
                -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/$BRANCH_NAME"
+               "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/$ENCODED_BRANCH_NAME"
