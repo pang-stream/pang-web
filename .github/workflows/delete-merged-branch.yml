@@ -21,13 +21,13 @@ jobs:
         if: env.MERGED == 'true'  # PR이 머지된 경우에만 실행
         run: |
           # 브랜치 이름 가져오기
-          BRANCH_NAME=${{ github.event.pull_request.head.ref }}
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
 
-          # URL 인코딩 (특수 문자 처리)
-          ENCODED_BRANCH_NAME=$(echo "$BRANCH_NAME" | jq -sRr @uri)
+          # 개행 문자 제거
+          CLEAN_BRANCH_NAME=$(echo -n "$BRANCH_NAME")
 
-          echo "Deleting branch: $BRANCH_NAME (Encoded: $ENCODED_BRANCH_NAME)"
+          echo "Deleting branch: $CLEAN_BRANCH_NAME"
 
           curl -X DELETE -H "Authorization: token ${{ secrets.GH_PAT }}" \
                -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/$ENCODED_BRANCH_NAME"
+               "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/$CLEAN_BRANCH_NAME"
