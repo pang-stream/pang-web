@@ -8,11 +8,14 @@ jobs:
   create-branch:
     runs-on: ubuntu-latest
     steps:
+      - name: 이슈 이벤트 데이터 디버깅
+        run: echo '${{ toJson(github.event.issue) }}'
+
       - name: 첫 번째 레이블 가져오기
         id: get-label
         run: |
-          LABEL=$(jq -r '.issue.labels[0].name // "Issue"' <<< '${{ toJson(github.event.issue) }}')
-          
+          LABEL=$(jq -r 'if .labels | length > 0 then .labels[0].name else "Issue" end' <<< '${{ toJson(github.event.issue) }}')
+
           SAFE_LABEL=$(echo "$LABEL" | tr ' ' '-' | tr -cd '[:alnum:]-')
 
           echo "LABEL=$SAFE_LABEL" >> $GITHUB_ENV
@@ -23,7 +26,7 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT }}
 
-      - name: 이슈 브런치 생성하기
+      - name: Create and push branch
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
           BRANCH_NAME="${LABEL}/#${ISSUE_NUMBER}"
