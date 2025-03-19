@@ -5,9 +5,15 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface ButtonProps {
   buttonName: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-const ButtonConatiner = styled.div`
+interface ButtonContainerProps{
+  isLoading?: boolean;
+  isDisabled?: boolean;
+}
+
+const ButtonConatiner = styled.div<ButtonContainerProps>`
   width: 100%;
   height: 45px;
   background-color: #FF3B79;
@@ -15,10 +21,22 @@ const ButtonConatiner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: filter 0.3s ease;
+  &:hover{
+    filter: brightness(0.8);
+  }
+
+  ${({ isLoading }) => isLoading && `
+    filter: brightness(0.8);
+  `}
+  ${({ isDisabled }) => isDisabled && `
+    filter: brightness(0.8);
+  `}
+  
 `
 
 const ButtonText = styled.span`
-font-weight: 600;
+  font-weight: 600;
   font-size: 15px;
 `
 
@@ -37,12 +55,16 @@ const Spinning = styled(AiOutlineLoading3Quarters)`
 
 `
 
-export const Button = ({ buttonName, onClick }: ButtonProps) => {
+export const Button = ({ buttonName, onClick, disabled }: ButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const buttonHandler = async () => {
-    // 버튼 클릭 이벤트가 있을시에만 작동
-    if (onClick) { 
+    // 버튼 클릭 이벤트와 비활성화 되지 않았을시에만 작동
+    if (onClick && !disabled) { 
+      // 이미 버튼이 불러 와졌다면
+      if (isLoading)
+        return;
+      
       // 버튼 로딩 상태 변경
       setIsLoading(true)
       try{
@@ -58,6 +80,8 @@ export const Button = ({ buttonName, onClick }: ButtonProps) => {
   return (
     <ButtonConatiner
       onClick={buttonHandler}
+      isLoading={isLoading}
+      isDisabled={disabled}
     >
       { !isLoading ? 
         <ButtonText>{buttonName}</ButtonText>
