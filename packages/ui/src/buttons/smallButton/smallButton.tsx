@@ -1,8 +1,8 @@
 import { useState } from "react";
-import {ButtonProps} from "./button.props"
-import {ButtonConatiner, ButtonText, Spinning} from "./button.styles"
+import {ButtonProps} from "./smallButton.props"
+import {ButtonConatiner, ButtonText, Spinning} from "./smallButton.styles"
 
-export const Button = ({ label, disabled, onClick }: ButtonProps) => {
+export const SmallButton = ({ label, disabled, onClick }: ButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const buttonHandler = async () => {
@@ -27,11 +27,14 @@ export const Button = ({ label, disabled, onClick }: ButtonProps) => {
   return (
     <ButtonConatiner
       onClick={buttonHandler}
+      label={label}
       isLoading={isLoading}
       isDisabled={disabled}
     >
       { !isLoading ? 
-        <ButtonText>{label}</ButtonText>
+        <ButtonText>
+          {label}
+        </ButtonText>
        : 
         <Spinning size={18}/>
       } 
