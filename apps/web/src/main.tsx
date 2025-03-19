@@ -7,10 +7,9 @@ import App from './App.tsx'
 import { theme } from "@repo/ui/theme";
 
 createRoot(document.getElementById('root')!).render(
-  <ThemeProvider theme={theme}>
-    <StrictMode>
+  <StrictMode>
+    <ThemeProvider theme={theme}>
       <App />
-    </StrictMode>
-  </ThemeProvider>
-  
+    </ThemeProvider>
+  </StrictMode>
 )
