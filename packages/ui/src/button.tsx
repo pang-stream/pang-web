@@ -3,9 +3,9 @@ import { styled, keyframes } from "styled-components";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface ButtonProps {
-  buttonName: string;
-  onClick?: () => void;
+  label: string;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 interface ButtonContainerProps{
@@ -55,7 +55,7 @@ const Spinning = styled(AiOutlineLoading3Quarters)`
 
 `
 
-export const Button = ({ buttonName, onClick, disabled }: ButtonProps) => {
+export const Button = ({ label, disabled, onClick }: ButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const buttonHandler = async () => {
@@ -84,7 +84,7 @@ export const Button = ({ buttonName, onClick, disabled }: ButtonProps) => {
       isDisabled={disabled}
     >
       { !isLoading ? 
-        <ButtonText>{buttonName}</ButtonText>
+        <ButtonText>{label}</ButtonText>
        : 
         <Spinning size={18}/>
       } 
