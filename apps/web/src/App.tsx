@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { customAxios } from "@repo/api"
 import { useAuthStore } from '@repo/store';
-import {Button} from "@repo/ui/buttons"
+import {Button, SmallButton} from "@repo/ui/buttons"
 
 import './App.css'
 
@@ -48,6 +48,7 @@ function App() {
   return (
     <div className="login-form">
       <h2>로그인</h2>
+      <SmallButton label='버튼 레이블' onClick={loadUserInfo}/>
       <div>
         <label htmlFor="username">사용자명</label>
         <input
@@ -72,6 +73,7 @@ function App() {
       <Button label='로그인' onClick={handleLogin}></Button>
       {success && <p>로그인 성공!</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
       <Button label='유저정보 가져오기' onClick={loadUserInfo}></Button>
       <div>
         {userData}
