@@ -1,1 +1,1 @@
-export { default as customAxios }  from "./customAxios";
+export { default as customAxios } from "./customAxios";

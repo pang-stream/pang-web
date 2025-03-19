@@ -1,8 +1,5 @@
 import axios from 'axios';
 import {useAuthStore} from "@repo/store";
-// import * as dotenv from 'dotenv';
-
-// dotenv.config();
 
 const customAxios = axios.create({
   baseURL: "https://scenario-api.euns.dev",
@@ -29,22 +26,21 @@ customAxios.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-        const {refreshToken, setAccessToken, setRefreshToken} = useAuthStore.getState();
+        const {refreshToken, setTokenData, clearTokenData} = useAuthStore.getState();
         if (refreshToken) {
         try {
-            const { data } = await axios.post(`${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/refresh`, {
-                refreshToken,
+            const { data } = await axios.post(`https://scenario-api.euns.dev/auth/refresh`, {
+              refreshToken,
             });
-
-            setAccessToken(data.accessToken);
-            setRefreshToken(data.refreshToken);
-            
+            setTokenData({
+              accessToken:data.accessToken,
+              refreshToken:data.refreshToken
+            })
             error.config.headers.Authorization = `Bearer ${data.accessToken}`;
             return customAxios(error.config);
         } catch (refreshError) {
-            console.error('Token refresh failed:', refreshError);
-            setRefreshToken("")
-            setAccessToken("")
+            console.error('토큰 갱신 실패', refreshError);
+            clearTokenData()
         }
       }
     }
