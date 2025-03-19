@@ -5,7 +5,7 @@
     "node": "^20"
   },
   "exports": {
-    ".": "./src/index.tsx"
+    ".": "./src/index.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -17,6 +17,7 @@
     "zustand": "^4.3.0"
   },
   "dependencies": {
+    "vite": "^6.2.0",
     "zustand": "^4.3.0"
   }
 }

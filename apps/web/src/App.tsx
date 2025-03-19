@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import {customAxios} from "@repo/api"
-import './App.css'
+import { customAxios } from "@repo/api"
 import { useAuthStore } from '@repo/store';
+import {Button} from "@repo/ui"
+
+import './App.css'
 
 function App() {
   const [username, setUsername] = useState('');
@@ -9,10 +11,14 @@ function App() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [userData, setUserData] = useState('');
+  const {setTokenData} = useAuthStore();
 
-  const {setAccessToken} = useAuthStore.getState();
-  const {setRefreshToken} = useAuthStore.getState();
-  // 로그인 API 호출
+  const loadUserInfo = async () => {
+    const response = await customAxios.get("/user");
+    setUserData(String(JSON.stringify(response.data.data)))
+  }
+
   const handleLogin = async () => {
     setLoading(true);
     setError('');
@@ -23,15 +29,15 @@ function App() {
         username: username,
         password: password
       });
-      // 로그인 성공
       setSuccess(true);
       console.log('로그인 성공:', response.data);
-      setAccessToken(response.data.data.accessToken)
-      setRefreshToken(response.data.data.refreshToken)
+      setTokenData({
+        accessToken:response.data.data.accessToken,
+        refreshToken:response.data.data.refreshToken
+      })
       console.log((await customAxios.get("/user")).data)
       
     } catch (err) {
-      // 로그인 실패
       setError('로그인에 실패했습니다. 다시 시도해주세요.');
       console.error('로그인 오류:', err);
     } finally {
@@ -62,11 +68,15 @@ function App() {
           placeholder="비밀번호를 입력하세요"
         />
       </div>
-      <button onClick={handleLogin} disabled={loading}>
-        {loading ? '로그인 중...' : '로그인'}
-      </button>
+      
+      <Button buttonName='로그인' onClick={handleLogin}></Button>
       {success && <p>로그인 성공!</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      <Button buttonName='유저정보 가져오기' onClick={loadUserInfo}></Button>
+      <div>
+        {userData}
+      </div>
+
     </div>
   )
 }
