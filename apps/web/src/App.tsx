@@ -48,7 +48,7 @@ function App() {
   return (
     <div className="login-form">
       <h2>로그인</h2>
-      <Chip textColor='#ffffff'  bgColor='#761AFF' label='안녕'/>
+      <Chip textColor='#ffffff'  bgColor='#761AFF' label='안녕1'/>
       <Chip textColor='#761AFF'  bgColor='#E7D6FF' label='반가워'/>
       <SmallButton label='버튼 레이블' onClick={loadUserInfo}/>
       <div>
