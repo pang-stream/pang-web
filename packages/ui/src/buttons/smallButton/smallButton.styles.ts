@@ -9,6 +9,7 @@ export const ButtonConatiner = styled.div<ButtonContainerProps>`
   justify-content: center;
   align-items: center;  
   height: 45px;
+  
   padding-left: 16px;
   padding-right: 16px;
   background-color: ${(props) => props.theme.primary500};  
@@ -28,7 +29,7 @@ export const ButtonConatiner = styled.div<ButtonContainerProps>`
 export const ButtonText = styled.span`
   font-weight: 500;
   font-size: 15px;
-  color: ${(props)=> props.theme.primaryTextColor}
+  color: ${(props)=> props.theme.primaryTextColor};
 `
 
 const SpinningAnimation = keyframes`

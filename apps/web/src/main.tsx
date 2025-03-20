@@ -5,11 +5,12 @@ import './index.css'
 import App from './App.tsx'
 
 import { theme } from "@repo/ui/theme";
+import { Page } from './Page.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <Page />
     </ThemeProvider>
   </StrictMode>
 )
