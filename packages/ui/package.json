@@ -4,6 +4,7 @@
   "private": true,
   "exports": {
     "./buttons": "./src/buttons/index.ts",
+    "./chips": "./src/chips/index.ts",
     "./theme": "./src/theme/theme.ts"
   },
   "scripts": {
