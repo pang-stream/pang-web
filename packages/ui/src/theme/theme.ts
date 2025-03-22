@@ -24,6 +24,8 @@ declare module "styled-components" {
         secondary700: string;
         secondary800: string;
         secondary900: string;
+        netural800:string;
+        gray700:string;
         color: string;
     }
 }
@@ -52,6 +54,7 @@ export const theme: DefaultTheme = {
     secondary700: "#3d0099ff",
     secondary800: "#290066ff",
     secondary900: "#140033ff",
-    
+    netural800:"#262626ff",
+    gray700:"#374151ff",
     color: "#ff0055ff"
 };
