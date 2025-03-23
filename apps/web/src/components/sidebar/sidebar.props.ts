@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 export interface SidebarExplorerItem {
     id: string;
     icon: ReactNode;
-    isSelected: boolean;
     isClipped?: boolean;
     label: string;
     to: string

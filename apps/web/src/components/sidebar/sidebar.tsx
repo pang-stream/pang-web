@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import {styled} from "styled-components"
 import { IoHeartOutline, IoRadioOutline } from "react-icons/io5";
 import { IoGridOutline } from "react-icons/io5";
 import { PiList } from "react-icons/pi";
@@ -9,13 +8,14 @@ import pung from "../../assets/pung.png"
 import pung_primary from "../../assets/pung-primary.png"
 import pung_gray from "../../assets/pung-gray.png"
 
-import { ItemIconAndTextCliped, ItemIconAndText } from "./sidebar.style"
+import { ItemIconAndTextCliped, ItemIconAndText, SidebarContainer, BaseSidebar, HeaderLogoContainer } from "./sidebar.style"
 import { SidebarExplorerItem, SidebarProps } from "./sidebar.props";
 import { Link } from 'react-router-dom';
 
-export const SidebarItem = ({ id, icon, isClipped, label, isSelected, to }: SidebarExplorerItem) => {
-    const { setSelected } = useSidebarStore();
-    
+export const SidebarItem = ({ id, icon, label, isClipped, to }: SidebarExplorerItem) => {
+    const { setSelected, selected } = useSidebarStore();
+    const isSelected = (selected == id)
+
     let displayLabel = label.replace(" ", "\n");
     if (isClipped) {
         return <Fragment>
@@ -39,45 +39,53 @@ export const SidebarItem = ({ id, icon, isClipped, label, isSelected, to }: Side
 
 
 
-export const SidebarContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 25px;
-`
 
-const HeaderLogoContainer = styled.div`
-    position: absolute;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    top: -64px;
-    gap: 18px;
-    height: 64px;
-    width: 240px;
-    border-bottom: 1px solid ${(props)=>props.theme.gray700};
-    background-color: ${(props)=> props.theme.netural900};
-`
-
-export const BaseSidebar = styled.div`
-    grid-row: span 2;
-    color: #fff;
-    background-color: ${(props)=> props.theme.netural900};
-    height: calc(100% - 64px);
-    overscroll-behavior: none;
-    position: relative;
-    top: 64px;
-    z-index: 2;
-`;
 
 export const SidebarMainNav = ({isClipped}:SidebarProps) =>{
     const { selected } = useSidebarStore();
+    const SidebarList = [
+        {
+            id: "explorer",
+            label: '탐색',
+            to: "/",
+            icon:(
+                <IoRadioOutline size={24}/>
+            )
+        },
+        {
+            id: "category",
+            label: '카테 고리',
+            to: "/category",
+            icon:(
+                <IoGridOutline  size={24}/>
+            )
+        },
+        {
+            id: "follow",
+            label: '팔로잉',
+            to: "/follow",
+            icon:(
+                <IoHeartOutline size={24}/>
+            )
+        },
+        {
+            id: "pung",
+            label: '충전',
+            to: "/pung",
+            icon:(
+                <img src={ selected == "pung" ? pung_primary : !isClipped ? pung : pung_gray} width={24}></img>
+            )
+        },
+    ]
 
     return (
         <SidebarContainer>
-            <SidebarItem id="explorer" to="/" label='탐색' icon={<IoRadioOutline size={24}/>} isClipped={isClipped} isSelected={selected == "explorer" ? true : false}/>
-            <SidebarItem id="category" to="/category" label='카테 고리' icon={<IoGridOutline  size={24}/>} isClipped={isClipped} isSelected={selected == "category" ? true : false}/>
-            <SidebarItem id="follow" to="/follow" label='팔로잉' icon={<IoHeartOutline size={24}/>} isClipped={isClipped} isSelected={selected == "follow" ? true : false}/>
-            <SidebarItem id="pung" to="/pung" label='충전' icon={<img src={ selected == "pung" ? pung_primary : !isClipped ? pung : pung_gray} width={24}></img>} isClipped={isClipped} isSelected={selected == "pung" ? true : false}/>
+            { 
+                SidebarList.map(element => (
+                    <SidebarItem id={element.id} to={element.to} label={element.label} icon={element.icon} isClipped={isClipped}/>
+                ))
+            }   
+            
         </SidebarContainer>
     )
 }

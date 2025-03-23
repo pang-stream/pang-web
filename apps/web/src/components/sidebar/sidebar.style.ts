@@ -44,3 +44,33 @@ export const ItemIconAndTextCliped = styled.div<SidebarItemProps>`
     ` };
     cursor: pointer;
 `
+
+export const SidebarContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+`
+
+export const HeaderLogoContainer = styled.div`
+    position: absolute;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    top: -64px;
+    gap: 18px;
+    height: 64px;
+    width: 240px;
+    border-bottom: 1px solid ${(props)=>props.theme.gray700};
+    background-color: ${(props)=> props.theme.netural900};
+`
+
+export const BaseSidebar = styled.div`
+    grid-row: span 2;
+    color: #fff;
+    background-color: ${(props)=> props.theme.netural900};
+    height: calc(100% - 64px);
+    overscroll-behavior: none;
+    position: relative;
+    top: 64px;
+    z-index: 2;
+`;
