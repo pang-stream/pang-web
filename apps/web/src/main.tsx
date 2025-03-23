@@ -18,7 +18,6 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="*" element={<NotFound />}></Route>
-
           </Routes>
         </Layout>
       </ThemeProvider>
