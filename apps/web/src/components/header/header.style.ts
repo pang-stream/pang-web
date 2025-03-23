@@ -22,5 +22,5 @@ export const BaseHeader = styled.div`
     border-bottom: 1px solid ${(props)=>props.theme.gray700};
     overscroll-behavior: none;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 `;

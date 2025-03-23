@@ -3,9 +3,9 @@ import { GridContainer } from "./main.style"
 
 export const Main = () => {
     return <GridContainer>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
+        <Card title="테스트" streamerName="테스트1"/>
+        <Card title="테스트" streamerName="테스트1"/>
+        <Card title="테스트" streamerName="테스트1"/>
+        <Card title="테스트" streamerName="테스트1"/>
     </GridContainer>
 }
